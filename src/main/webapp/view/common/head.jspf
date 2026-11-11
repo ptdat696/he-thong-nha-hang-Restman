@@ -50,13 +50,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RestMan6 - <%= esc(pageTitle) %></title>
+<title>RestMan - <%= esc(pageTitle) %></title>
 <link rel="stylesheet" href="<%= ctx %>/assets/style.css">
 </head>
 <body>
 <header class="topbar">
   <div class="topbar-in">
-    <a class="brand" href="<%= ctx %>/index.jsp">RESTMAN<span>6</span></a>
+    <a class="brand" href="<%= ctx %>/index.jsp">RESTMAN</a>
     <% if (headUser instanceof User6) { %>
     <div class="user">
       <span class="user-name"><%= esc(headName) %></span>
