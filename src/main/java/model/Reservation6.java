@@ -12,7 +12,6 @@ public class Reservation6 {
     private int id;
     private Date reservationDate;
     private Time reservationTime;
-    private int numberOfGuests;
     private String customerName;
     private String customerPhone;
     private String status = PENDING;
@@ -29,8 +28,6 @@ public class Reservation6 {
     public void setReservationDate(Date reservationDate) { this.reservationDate = reservationDate; }
     public Time getReservationTime() { return reservationTime; }
     public void setReservationTime(Time reservationTime) { this.reservationTime = reservationTime; }
-    public int getNumberOfGuests() { return numberOfGuests; }
-    public void setNumberOfGuests(int numberOfGuests) { this.numberOfGuests = numberOfGuests; }
     public String getCustomerName() { return customerName; }
     public void setCustomerName(String customerName) { this.customerName = customerName; }
     public String getCustomerPhone() { return customerPhone; }

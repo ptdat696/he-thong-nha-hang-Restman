@@ -90,7 +90,6 @@
         <th>Ngày đặt</th>
         <th>Giờ</th>
         <th>Số bàn</th>
-        <th>Số khách</th>
         <th>Tên liên hệ</th>
         <th>Điện thoại</th>
         <th>Khách hàng</th>
@@ -120,7 +119,6 @@
         <td><%= dateStr %></td>
         <td><%= timeStr %></td>
         <td><strong><%= esc(r.getTable().getTableNumber()) %></strong></td>
-        <td><%= r.getNumberOfGuests() %></td>
         <td><%= esc(r.getCustomerName()) %></td>
         <td><%= esc(r.getCustomerPhone()) %></td>
         <td class="muted"><%= esc(custFullName) %></td>

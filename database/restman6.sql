@@ -125,7 +125,6 @@ CREATE TABLE tblReservation6 (
   id              INT AUTO_INCREMENT PRIMARY KEY,
   reservationDate DATE NOT NULL,
   reservationTime TIME NOT NULL,
-  numberOfGuests  INT NOT NULL,
   customerName    VARCHAR(255) NOT NULL,
   customerPhone   VARCHAR(255) NOT NULL,
   status          VARCHAR(255) NOT NULL DEFAULT 'PENDING',
@@ -220,6 +219,6 @@ INSERT INTO tblIngredient6 (ingredientName, unit, stockQuantity) VALUES
 ('Gạo tám', 'kg', 50);
 
 -- Hai đơn đặt bàn vào ngày mai để thử chức năng tìm bàn trống
-INSERT INTO tblReservation6 (reservationDate, reservationTime, numberOfGuests, customerName, customerPhone, status, tableId, customerId, salesStaffId) VALUES
-(DATE_ADD(CURDATE(), INTERVAL 1 DAY), '19:00:00', 4, 'Phạm Minh Khách', '0912345678', 'CONFIRMED', 3, 4, 3),
-(DATE_ADD(CURDATE(), INTERVAL 1 DAY), '19:30:00', 6, 'Hoàng Thu Hà',     '0987654321', 'PENDING',   6, 5, NULL);
+INSERT INTO tblReservation6 (reservationDate, reservationTime, customerName, customerPhone, status, tableId, customerId, salesStaffId) VALUES
+(DATE_ADD(CURDATE(), INTERVAL 1 DAY), '19:00:00', 'Phạm Minh Khách', '0912345678', 'CONFIRMED', 3, 4, 3),
+(DATE_ADD(CURDATE(), INTERVAL 1 DAY), '19:30:00', 'Hoàng Thu Hà',     '0987654321', 'PENDING',   6, 5, NULL);

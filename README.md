@@ -56,7 +56,7 @@ Mật khẩu lưu dạng SHA-256 trong `tblUser6`.
 
 **Module 1** – đăng nhập `manager` → *Quản lí món ăn* → *Thêm món ăn* → nhập tên, giá, mô tả, trạng thái → *Thêm* → thông báo → *OK* về danh sách (món mới ở cuối).
 
-**Module 2** – đăng nhập `customer1` → *Đặt bàn* → chọn ngày giờ (10:00–21:00) → *Tìm bàn* → *Chọn bàn* → kiểm tra họ tên, điện thoại, số người → *Xác nhận*. Đơn được lưu với trạng thái `PENDING`, chờ nhân viên bán hàng xác nhận.
+**Module 2** – đăng nhập `customer1` → *Đặt bàn* → chọn ngày giờ (10:00–21:00) → *Tìm bàn* → *Chọn bàn* → kiểm tra họ tên, điện thoại → *Xác nhận*. Đơn được lưu với trạng thái `PENDING`, chờ nhân viên bán hàng xác nhận.
 
 Dữ liệu mẫu có sẵn 2 đơn đặt vào ngày mai (T03 lúc 19:00, T06 lúc 19:30) và bàn T08 đang bảo trì, để thử việc loại bàn không trống. Mỗi lượt giữ bàn **120 phút**: bàn đã có đơn lúc 19:00 thì không nhận đặt trong khoảng từ 17:01 đến 20:59.
 

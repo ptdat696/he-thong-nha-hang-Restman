@@ -25,13 +25,13 @@ public class Reservation6DAO extends DAO6 {
             + "AND reservationTime > ? AND reservationTime < ?";
 
     private static final String SQL_INSERT =
-            "INSERT INTO tblReservation6 (reservationDate, reservationTime, numberOfGuests, "
+            "INSERT INTO tblReservation6 (reservationDate, reservationTime, "
             + "customerName, customerPhone, status, tableId, customerId, salesStaffId) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     /** Lấy tất cả đơn đặt bàn của một khách, mới nhất trước. */
     private static final String SQL_BY_CUSTOMER =
-            "SELECT r.id, r.reservationDate, r.reservationTime, r.numberOfGuests, "
+            "SELECT r.id, r.reservationDate, r.reservationTime, "
             + "r.customerName, r.customerPhone, r.status, "
             + "t.id AS tableId, t.tableNumber, t.capacity "
             + "FROM tblReservation6 r "
@@ -41,7 +41,7 @@ public class Reservation6DAO extends DAO6 {
 
     /** Lấy tất cả đơn đặt bàn (nhân viên xem), mới nhất trước. */
     private static final String SQL_ALL =
-            "SELECT r.id, r.reservationDate, r.reservationTime, r.numberOfGuests, "
+            "SELECT r.id, r.reservationDate, r.reservationTime, "
             + "r.customerName, r.customerPhone, r.status, "
             + "t.id AS tableId, t.tableNumber, t.capacity, "
             + "u.fullName AS custFullName "
@@ -52,7 +52,7 @@ public class Reservation6DAO extends DAO6 {
 
     /** Lấy một đơn theo id. */
     private static final String SQL_BY_ID =
-            "SELECT r.id, r.reservationDate, r.reservationTime, r.numberOfGuests, "
+            "SELECT r.id, r.reservationDate, r.reservationTime, "
             + "r.customerName, r.customerPhone, r.status, "
             + "t.id AS tableId, t.tableNumber, t.capacity "
             + "FROM tblReservation6 r "
@@ -105,16 +105,15 @@ public class Reservation6DAO extends DAO6 {
                         PreparedStatement.RETURN_GENERATED_KEYS)) {
                     ps.setDate(1, reservation.getReservationDate());
                     ps.setTime(2, reservation.getReservationTime());
-                    ps.setInt(3, reservation.getNumberOfGuests());
-                    ps.setString(4, reservation.getCustomerName());
-                    ps.setString(5, reservation.getCustomerPhone());
-                    ps.setString(6, reservation.getStatus());
-                    ps.setInt(7, tableId);
-                    ps.setInt(8, reservation.getCustomer().getId());
+                    ps.setString(3, reservation.getCustomerName());
+                    ps.setString(4, reservation.getCustomerPhone());
+                    ps.setString(5, reservation.getStatus());
+                    ps.setInt(6, tableId);
+                    ps.setInt(7, reservation.getCustomer().getId());
                     if (reservation.getSalesStaff() == null) {
-                        ps.setNull(9, Types.INTEGER);
+                        ps.setNull(8, Types.INTEGER);
                     } else {
-                        ps.setInt(9, reservation.getSalesStaff().getId());
+                        ps.setInt(8, reservation.getSalesStaff().getId());
                     }
                     if (ps.executeUpdate() != 1) {
                         con.rollback();
@@ -229,7 +228,6 @@ public class Reservation6DAO extends DAO6 {
         r.setId(rs.getInt("id"));
         r.setReservationDate(rs.getDate("reservationDate"));
         r.setReservationTime(rs.getTime("reservationTime"));
-        r.setNumberOfGuests(rs.getInt("numberOfGuests"));
         r.setCustomerName(rs.getString("customerName"));
         r.setCustomerPhone(rs.getString("customerPhone"));
         r.setStatus(rs.getString("status"));

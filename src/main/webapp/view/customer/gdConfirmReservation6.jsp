@@ -64,11 +64,6 @@
          pattern="[0-9+ ]{8,15}" title="8 đến 15 chữ số"
          value="<%= esc(customer.getPhone()) %>" required>
 
-  <label for="inNumberOfGuests">Số người <span class="req">*</span></label>
-  <input type="number" id="inNumberOfGuests" name="inNumberOfGuests"
-         min="1" max="<%= table.getCapacity() %>" value="1" required>
-  <p class="hint">Tối đa <%= table.getCapacity() %> người cho bàn này.</p>
-
   <div class="form-actions">
     <button type="submit" class="btn btn-primary" name="btnConfirm">Xác nhận</button>
     <a class="btn" href="gdTableList6.jsp?inDate=<%= date.toString() %>&amp;inTime=<%= timeShow %>">Chọn bàn khác</a>
