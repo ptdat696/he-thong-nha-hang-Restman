@@ -130,74 +130,74 @@
       </table>
     </div>
   <% } %>
+<% } else { %>
+  <h2 class="section-title">Tất cả bàn của nhà hàng</h2>
+  <p class="lead">Danh sách tất cả bàn và lịch đã đặt hiện tại.</p>
+
+  <div class="table-wrap">
+    <table class="data" id="tblAllTables">
+      <thead>
+        <tr>
+          <th class="stt">STT</th>
+          <th>Số bàn</th>
+          <th>Sức chứa</th>
+          <th>Tình trạng</th>
+          <th>Lịch đã đặt</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% int stt = 0; for (Table6 t : allTables) { stt++;
+           boolean maintenance = !"ACTIVE".equals(t.getStatus());
+           boolean booked = !t.getReservations().isEmpty(); %>
+        <tr>
+          <td class="stt"><%= stt %></td>
+          <td><strong><%= esc(t.getTableNumber()) %></strong></td>
+          <td><%= t.getCapacity() %> người</td>
+          <td>
+            <% if (maintenance) { %>
+            <span class="badge badge-off">Bảo trì</span>
+            <% } else if (booked) { %>
+            <span class="badge badge-busy">Đã có lịch đặt</span>
+            <% } else { %>
+            <span class="badge badge-on">Trống</span>
+            <% } %>
+          </td>
+          <td class="muted">
+            <% if (maintenance) { %>
+            Tạm ngưng nhận đặt
+            <% } else if (!booked) { %>
+            Chưa có lịch đặt
+            <% } else {
+                 int shown = 0;
+                 for (Reservation6 r : t.getReservations()) {
+                   if (shown == 5) break;
+                   shown++; %><span class="slot"><%= dayFmt.format(r.getReservationDate()) %> <%= r.getReservationTime().toString().substring(0, 5) %></span> <%
+                 }
+                 if (t.getReservations().size() > 5) { %>và <%= t.getReservations().size() - 5 %> lịch khác<% }
+               } %>
+          </td>
+          <td class="num">
+            <% if (!maintenance) { %>
+              <button type="button" class="btn btn-small" onclick="quickSelectTable('<%= esc(t.getTableNumber()) %>')">Chọn bàn</button>
+            <% } else { %>
+              <span class="muted">—</span>
+            <% } %>
+          </td>
+        </tr>
+      <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+  function quickSelectTable(tableNum) {
+    var dateInput = document.getElementById('inDate');
+    var timeInput = document.getElementById('inTime');
+    dateInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    dateInput.focus();
+  }
+  </script>
 <% } %>
-
-<h2 class="section-title">Tất cả bàn của nhà hàng</h2>
-<p class="lead">Danh sách tất cả bàn và lịch đã đặt hiện tại.</p>
-
-<div class="table-wrap">
-  <table class="data" id="tblAllTables">
-    <thead>
-      <tr>
-        <th class="stt">STT</th>
-        <th>Số bàn</th>
-        <th>Sức chứa</th>
-        <th>Tình trạng</th>
-        <th>Lịch đã đặt</th>
-        <th>Hành động</th>
-      </tr>
-    </thead>
-    <tbody>
-    <% int stt = 0; for (Table6 t : allTables) { stt++;
-         boolean maintenance = !"ACTIVE".equals(t.getStatus());
-         boolean booked = !t.getReservations().isEmpty(); %>
-      <tr>
-        <td class="stt"><%= stt %></td>
-        <td><strong><%= esc(t.getTableNumber()) %></strong></td>
-        <td><%= t.getCapacity() %> người</td>
-        <td>
-          <% if (maintenance) { %>
-          <span class="badge badge-off">Bảo trì</span>
-          <% } else if (booked) { %>
-          <span class="badge badge-busy">Đã có lịch đặt</span>
-          <% } else { %>
-          <span class="badge badge-on">Trống</span>
-          <% } %>
-        </td>
-        <td class="muted">
-          <% if (maintenance) { %>
-          Tạm ngưng nhận đặt
-          <% } else if (!booked) { %>
-          Chưa có lịch đặt
-          <% } else {
-               int shown = 0;
-               for (Reservation6 r : t.getReservations()) {
-                 if (shown == 5) break;
-                 shown++; %><span class="slot"><%= dayFmt.format(r.getReservationDate()) %> <%= r.getReservationTime().toString().substring(0, 5) %></span> <%
-               }
-               if (t.getReservations().size() > 5) { %>và <%= t.getReservations().size() - 5 %> lịch khác<% }
-             } %>
-        </td>
-        <td class="num">
-          <% if (!maintenance) { %>
-            <button type="button" class="btn btn-small" onclick="quickSelectTable('<%= esc(t.getTableNumber()) %>')">Chọn bàn</button>
-          <% } else { %>
-            <span class="muted">—</span>
-          <% } %>
-        </td>
-      </tr>
-    <% } %>
-    </tbody>
-  </table>
-</div>
-
-<script>
-function quickSelectTable(tableNum) {
-  var dateInput = document.getElementById('inDate');
-  var timeInput = document.getElementById('inTime');
-  dateInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  dateInput.focus();
-}
-</script>
 
 <%@ include file="../common/foot.jspf" %>
