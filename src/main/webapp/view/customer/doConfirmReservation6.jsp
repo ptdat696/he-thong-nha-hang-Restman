@@ -1,10 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
-         import="model.*,dao.*,java.util.ArrayList,java.sql.Date,java.sql.Time" %>
-<%!
-    static String val(String s) {
-        return (s == null) ? "" : s.trim();
-    }
-%>
+    import="model.*,dao.*,java.util.ArrayList,java.sql.Date,java.sql.Time" %>
+<%! static String val(String s) { return (s==null) ? "" : s.trim(); } %>
 <%
     request.setCharacterEncoding("UTF-8");
     Object u = session.getAttribute("user");
@@ -38,6 +34,12 @@
 
         String name = val(request.getParameter("inCustomerName"));
         String phone = val(request.getParameter("inCustomerPhone"));
+        int guests = 0;
+        try {
+            guests = Integer.parseInt(val(request.getParameter("inNumberOfGuests")));
+        } catch (NumberFormatException e) {
+            guests = 0;
+        }
 
         String error = null;
         if (table == null || date == null || time == null) {
@@ -46,6 +48,8 @@
             error = "Họ tên không được để trống và tối đa 255 ký tự.";
         } else if (!phone.matches("[0-9+ ]{8,15}")) {
             error = "Số điện thoại không hợp lệ.";
+        } else if (guests < 1 || guests > table.getCapacity()) {
+            error = "Số người phải từ 1 đến " + table.getCapacity() + ".";
         }
 
         String[] result;
@@ -56,6 +60,7 @@
             Reservation6 reservation = new Reservation6();
             reservation.setReservationDate(date);
             reservation.setReservationTime(time);
+            reservation.setNumberOfGuests(guests);
             reservation.setCustomerName(name);
             reservation.setCustomerPhone(phone);
             reservation.setStatus(Reservation6.PENDING);
@@ -99,8 +104,8 @@
 %>
 <%@ include file="../common/head.jspf" %>
 <div class="notice <%= ok ? "" : "notice-err" %>" id="boxNotice">
-  <h2><%= ok ? "Thành công" : "Có lỗi xảy ra" %></h2>
-  <p><%= esc(notice[1]) %></p>
-  <a class="btn btn-primary" id="btnOk" href="<%= esc(notice[2]) %>"><%= esc(notice[3]) %></a>
+    <h2><%= ok ? "Thành công" : "Có lỗi xảy ra" %></h2>
+    <p><%= esc(notice[1]) %></p>
+    <a class="btn btn-primary" id="btnOk" href="<%= esc(notice[2]) %>"><%= esc(notice[3]) %></a>
 </div>
 <%@ include file="../common/foot.jspf" %>
