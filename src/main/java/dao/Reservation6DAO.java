@@ -15,23 +15,22 @@ import model.Customer6;
 public class Reservation6DAO extends DAO6 {
 
     /** Khóa dòng bàn để hai khách không đặt trùng cùng lúc. */
-    private static final String SQL_LOCK_TABLE =
-            "SELECT id FROM tblTable6 WHERE id = ? AND status = 'ACTIVE' FOR UPDATE";
+    private static final String SQL_LOCK_TABLE = "SELECT id FROM tblTable6 WHERE id = ? AND status = 'ACTIVE' FOR UPDATE";
 
-    /** Đếm đơn đặt bàn (chưa hủy) trùng khoảng giờ. Tham số: bàn, ngày, cận dưới, cận trên. */
-    private static final String SQL_COUNT_OVERLAP =
-            "SELECT COUNT(*) FROM tblReservation6 "
+    /**
+     * Đếm đơn đặt bàn (chưa hủy) trùng khoảng giờ. Tham số: bàn, ngày, cận dưới,
+     * cận trên.
+     */
+    private static final String SQL_COUNT_OVERLAP = "SELECT COUNT(*) FROM tblReservation6 "
             + "WHERE tableId = ? AND reservationDate = ? AND status <> 'CANCELLED' "
             + "AND reservationTime > ? AND reservationTime < ?";
 
-    private static final String SQL_INSERT =
-            "INSERT INTO tblReservation6 (reservationDate, reservationTime, numberOfGuests, "
+    private static final String SQL_INSERT = "INSERT INTO tblReservation6 (reservationDate, reservationTime, numberOfGuests, "
             + "customerName, customerPhone, status, tableId, customerId, salesStaffId) "
             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     /** Lấy tất cả đơn đặt bàn của một khách, mới nhất trước. */
-    private static final String SQL_BY_CUSTOMER =
-            "SELECT r.id, r.reservationDate, r.reservationTime, r.numberOfGuests, "
+    private static final String SQL_BY_CUSTOMER = "SELECT r.id, r.reservationDate, r.reservationTime, r.numberOfGuests, "
             + "r.customerName, r.customerPhone, r.status, "
             + "t.id AS tableId, t.tableNumber, t.capacity "
             + "FROM tblReservation6 r "
@@ -40,8 +39,7 @@ public class Reservation6DAO extends DAO6 {
             + "ORDER BY r.reservationDate DESC, r.reservationTime DESC";
 
     /** Lấy tất cả đơn đặt bàn (nhân viên xem), mới nhất trước. */
-    private static final String SQL_ALL =
-            "SELECT r.id, r.reservationDate, r.reservationTime, r.numberOfGuests, "
+    private static final String SQL_ALL = "SELECT r.id, r.reservationDate, r.reservationTime, r.numberOfGuests, "
             + "r.customerName, r.customerPhone, r.status, "
             + "t.id AS tableId, t.tableNumber, t.capacity, "
             + "u.fullName AS custFullName "
@@ -51,8 +49,7 @@ public class Reservation6DAO extends DAO6 {
             + "ORDER BY r.reservationDate DESC, r.reservationTime DESC";
 
     /** Lấy một đơn theo id. */
-    private static final String SQL_BY_ID =
-            "SELECT r.id, r.reservationDate, r.reservationTime, r.numberOfGuests, "
+    private static final String SQL_BY_ID = "SELECT r.id, r.reservationDate, r.reservationTime, r.numberOfGuests, "
             + "r.customerName, r.customerPhone, r.status, "
             + "t.id AS tableId, t.tableNumber, t.capacity "
             + "FROM tblReservation6 r "
@@ -60,8 +57,7 @@ public class Reservation6DAO extends DAO6 {
             + "WHERE r.id = ?";
 
     /** Cập nhật trạng thái đơn và gán nhân viên xác nhận. */
-    private static final String SQL_UPDATE_STATUS =
-            "UPDATE tblReservation6 SET status = ?, salesStaffId = ? WHERE id = ? AND status = 'PENDING'";
+    private static final String SQL_UPDATE_STATUS = "UPDATE tblReservation6 SET status = ?, salesStaffId = ? WHERE id = ? AND status = 'PENDING'";
 
     public Reservation6DAO() {
         super();
@@ -166,7 +162,7 @@ public class Reservation6DAO extends DAO6 {
     public ArrayList<Reservation6> getAllReservations() {
         ArrayList<Reservation6> list = new ArrayList<Reservation6>();
         try (PreparedStatement ps = con.prepareStatement(SQL_ALL);
-             ResultSet rs = ps.executeQuery()) {
+                ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Reservation6 r = mapRow(rs, false);
                 // Tên tài khoản khách (fullName từ tblUser6)
