@@ -1,0 +1,69 @@
+<%@ page pageEncoding="UTF-8" %>
+<%!
+    /** Escape HTML để chống XSS khi in dữ liệu người dùng nhập. */
+    static String esc(Object o) {
+        if (o == null) {
+            return "";
+        }
+        String s = String.valueOf(o);
+        StringBuilder sb = new StringBuilder(s.length() + 16);
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            switch (c) {
+                case '&':  sb.append("&amp;");  break;
+                case '<':  sb.append("&lt;");   break;
+                case '>':  sb.append("&gt;");   break;
+                case '"':  sb.append("&quot;"); break;
+                case '\'': sb.append("&#39;");  break;
+                default:   sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
+    /** 55000 -> "55.000 đ" */
+    static String money(float price) {
+        return String.format(java.util.Locale.US, "%,.0f", price).replace(',', '.') + " đ";
+    }
+%>
+<%
+    String ctx = request.getContextPath();
+    Object headUser = session.getAttribute("user");
+    String headName = "";
+    String headRole = "";
+    if (headUser instanceof User6) {
+        User6 hu = (User6) headUser;
+        headName = (hu.getFullName() != null) ? hu.getFullName() : hu.getUsername();
+        if (headUser instanceof Manager6) {
+            headRole = "Nhân viên quản lí";
+        } else if (headUser instanceof WarehouseStaff6) {
+            headRole = "Nhân viên kho";
+        } else if (headUser instanceof SalesStaff6) {
+            headRole = "Nhân viên bán hàng";
+        } else if (headUser instanceof Customer6) {
+            headRole = "Khách hàng";
+        }
+    }
+%>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RestMan6 - <%= esc(pageTitle) %></title>
+<link rel="stylesheet" href="<%= ctx %>/assets/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="<%= ctx %>/index.jsp">RESTMAN<span>6</span></a>
+    <% if (headUser instanceof User6) { %>
+    <div class="user">
+      <span class="user-name"><%= esc(headName) %></span>
+      <span class="user-role"><%= esc(headRole) %></span>
+      <a class="btn btn-ghost" href="<%= ctx %>/view/user/doLogout6.jsp">Đăng xuất</a>
+    </div>
+    <% } %>
+  </div>
+</header>
+<main class="container">
