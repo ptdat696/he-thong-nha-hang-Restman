@@ -34,12 +34,7 @@
 
         String name = val(request.getParameter("inCustomerName"));
         String phone = val(request.getParameter("inCustomerPhone"));
-        int guests = 0;
-        try {
-            guests = Integer.parseInt(val(request.getParameter("inNumberOfGuests")));
-        } catch (NumberFormatException e) {
-            guests = 0;
-        }
+        String email = val(request.getParameter("inCustomerEmail"));
 
         String error = null;
         if (table == null || date == null || time == null) {
@@ -48,8 +43,8 @@
             error = "Họ tên không được để trống và tối đa 255 ký tự.";
         } else if (!phone.matches("[0-9+ ]{8,15}")) {
             error = "Số điện thoại không hợp lệ.";
-        } else if (guests < 1 || guests > table.getCapacity()) {
-            error = "Số người phải từ 1 đến " + table.getCapacity() + ".";
+        } else if (!email.isEmpty() && !email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            error = "Email không đúng định dạng.";
         }
 
         String[] result;
@@ -60,9 +55,9 @@
             Reservation6 reservation = new Reservation6();
             reservation.setReservationDate(date);
             reservation.setReservationTime(time);
-            reservation.setNumberOfGuests(guests);
             reservation.setCustomerName(name);
             reservation.setCustomerPhone(phone);
+            reservation.setCustomerEmail(email.isEmpty() ? null : email);
             reservation.setStatus(Reservation6.PENDING);
             reservation.setTable(table);
             reservation.setCustomer(customer);

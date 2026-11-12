@@ -12,9 +12,9 @@ public class Reservation6 {
     private int id;
     private Date reservationDate;
     private Time reservationTime;
-    private int numberOfGuests;
     private String customerName;
     private String customerPhone;
+    private String customerEmail;
     private String status = PENDING;
     private Table6 table;
     private Customer6 customer;
@@ -47,14 +47,6 @@ public class Reservation6 {
         this.reservationTime = reservationTime;
     }
 
-    public int getNumberOfGuests() {
-        return numberOfGuests;
-    }
-
-    public void setNumberOfGuests(int numberOfGuests) {
-        this.numberOfGuests = numberOfGuests;
-    }
-
     public String getCustomerName() {
         return customerName;
     }
@@ -69,6 +61,14 @@ public class Reservation6 {
 
     public void setCustomerPhone(String customerPhone) {
         this.customerPhone = customerPhone;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 
     public String getStatus() {

@@ -90,9 +90,9 @@
         <th>Ngày đặt</th>
         <th>Giờ</th>
         <th>Số bàn</th>
-        <th>Số khách</th>
         <th>Tên liên hệ</th>
         <th>Điện thoại</th>
+        <th>Email</th>
         <th>Khách hàng</th>
         <th>Trạng thái</th>
         <th></th>
@@ -120,9 +120,9 @@
         <td><%= dateStr %></td>
         <td><%= timeStr %></td>
         <td><strong><%= esc(r.getTable().getTableNumber()) %></strong></td>
-        <td><%= r.getNumberOfGuests() %></td>
         <td><%= esc(r.getCustomerName()) %></td>
         <td><%= esc(r.getCustomerPhone()) %></td>
+        <td class="muted"><%= r.getCustomerEmail() != null ? esc(r.getCustomerEmail()) : "—" %></td>
         <td class="muted"><%= esc(custFullName) %></td>
         <td><span class="badge <%= badgeCss %>"><%= statusLabel %></span></td>
         <td class="num">

@@ -25,13 +25,13 @@ public class Reservation6DAO extends DAO6 {
             + "WHERE tableId = ? AND reservationDate = ? AND status <> 'CANCELLED' "
             + "AND reservationTime > ? AND reservationTime < ?";
 
-    private static final String SQL_INSERT = "INSERT INTO tblReservation6 (reservationDate, reservationTime, numberOfGuests, "
-            + "customerName, customerPhone, status, tableId, customerId, salesStaffId) "
+    private static final String SQL_INSERT = "INSERT INTO tblReservation6 (reservationDate, reservationTime, "
+            + "customerName, customerPhone, customerEmail, status, tableId, customerId, salesStaffId) "
             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     /** Lấy tất cả đơn đặt bàn của một khách, mới nhất trước. */
-    private static final String SQL_BY_CUSTOMER = "SELECT r.id, r.reservationDate, r.reservationTime, r.numberOfGuests, "
-            + "r.customerName, r.customerPhone, r.status, "
+    private static final String SQL_BY_CUSTOMER = "SELECT r.id, r.reservationDate, r.reservationTime, "
+            + "r.customerName, r.customerPhone, r.customerEmail, r.status, "
             + "t.id AS tableId, t.tableNumber, t.capacity "
             + "FROM tblReservation6 r "
             + "JOIN tblTable6 t ON t.id = r.tableId "
@@ -39,8 +39,8 @@ public class Reservation6DAO extends DAO6 {
             + "ORDER BY r.reservationDate DESC, r.reservationTime DESC";
 
     /** Lấy tất cả đơn đặt bàn (nhân viên xem), mới nhất trước. */
-    private static final String SQL_ALL = "SELECT r.id, r.reservationDate, r.reservationTime, r.numberOfGuests, "
-            + "r.customerName, r.customerPhone, r.status, "
+    private static final String SQL_ALL = "SELECT r.id, r.reservationDate, r.reservationTime, "
+            + "r.customerName, r.customerPhone, r.customerEmail, r.status, "
             + "t.id AS tableId, t.tableNumber, t.capacity, "
             + "u.fullName AS custFullName "
             + "FROM tblReservation6 r "
@@ -49,8 +49,8 @@ public class Reservation6DAO extends DAO6 {
             + "ORDER BY r.reservationDate DESC, r.reservationTime DESC";
 
     /** Lấy một đơn theo id. */
-    private static final String SQL_BY_ID = "SELECT r.id, r.reservationDate, r.reservationTime, r.numberOfGuests, "
-            + "r.customerName, r.customerPhone, r.status, "
+    private static final String SQL_BY_ID = "SELECT r.id, r.reservationDate, r.reservationTime, "
+            + "r.customerName, r.customerPhone, r.customerEmail, r.status, "
             + "t.id AS tableId, t.tableNumber, t.capacity "
             + "FROM tblReservation6 r "
             + "JOIN tblTable6 t ON t.id = r.tableId "
@@ -101,9 +101,9 @@ public class Reservation6DAO extends DAO6 {
                         PreparedStatement.RETURN_GENERATED_KEYS)) {
                     ps.setDate(1, reservation.getReservationDate());
                     ps.setTime(2, reservation.getReservationTime());
-                    ps.setInt(3, reservation.getNumberOfGuests());
-                    ps.setString(4, reservation.getCustomerName());
-                    ps.setString(5, reservation.getCustomerPhone());
+                    ps.setString(3, reservation.getCustomerName());
+                    ps.setString(4, reservation.getCustomerPhone());
+                    ps.setString(5, reservation.getCustomerEmail());
                     ps.setString(6, reservation.getStatus());
                     ps.setInt(7, tableId);
                     ps.setInt(8, reservation.getCustomer().getId());
@@ -225,9 +225,9 @@ public class Reservation6DAO extends DAO6 {
         r.setId(rs.getInt("id"));
         r.setReservationDate(rs.getDate("reservationDate"));
         r.setReservationTime(rs.getTime("reservationTime"));
-        r.setNumberOfGuests(rs.getInt("numberOfGuests"));
         r.setCustomerName(rs.getString("customerName"));
         r.setCustomerPhone(rs.getString("customerPhone"));
+        r.setCustomerEmail(rs.getString("customerEmail"));
         r.setStatus(rs.getString("status"));
 
         Table6 table = new Table6();

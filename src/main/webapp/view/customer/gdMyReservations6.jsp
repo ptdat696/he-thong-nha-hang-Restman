@@ -40,9 +40,9 @@
         <th>Giờ</th>
         <th>Số bàn</th>
         <th>Sức chứa</th>
-        <th>Số khách</th>
         <th>Tên liên hệ</th>
         <th>Điện thoại</th>
+        <th>Email</th>
         <th>Trạng thái</th>
       </tr>
     </thead>
@@ -70,9 +70,9 @@
         <td><%= timeStr %></td>
         <td><strong><%= esc(r.getTable().getTableNumber()) %></strong></td>
         <td><%= r.getTable().getCapacity() %> người</td>
-        <td><%= r.getNumberOfGuests() %></td>
         <td><%= esc(r.getCustomerName()) %></td>
         <td><%= esc(r.getCustomerPhone()) %></td>
+        <td class="muted"><%= r.getCustomerEmail() != null ? esc(r.getCustomerEmail()) : "—" %></td>
         <td><span class="badge <%= badgeCss %>"><%= statusLabel %></span></td>
       </tr>
     <% } %>

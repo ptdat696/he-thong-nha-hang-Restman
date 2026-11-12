@@ -10,7 +10,7 @@
     errorText="Nhà hàng nhận đặt bàn từ 10:00 đến 21:00." ; } String pageTitle="Đặt bàn" ; %>
     <%@ include file="../common/head.jspf" %>
       <h1 class="page-title">Đặt bàn trực tuyến</h1>
-      <p class="lead">Chọn ngày và giờ bạn muốn đến, hệ thống sẽ tìm các bàn còn trống.</p>
+      <p class="lead">Chọn ngày và giờ để tìm các bàn còn trống.</p>
 
       <% if (errorText !=null) { %>
         <div class="alert-err">
