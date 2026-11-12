@@ -24,7 +24,7 @@
 
             <label for="inTime">Giờ <span class="req">*</span></label>
             <input type="time" id="inTime" name="inTime" min="10:00" max="21:00" step="900" required>
-            <p class="hint">Nhà hàng nhận đặt bàn từ 10:00 đến 21:00. Mỗi lượt giữ bàn 2 giờ.</p>
+            <p class="hint">Nhà hàng nhận đặt bàn từ 10:00 đến 21:00, chọn giờ theo mốc 15 phút (10:00, 10:15, 10:30...).</p>
 
             <div class="form-actions">
               <button type="submit" class="btn btn-primary" name="btnFind">Tìm bàn</button>

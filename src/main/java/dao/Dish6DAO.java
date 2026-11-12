@@ -11,12 +11,10 @@ import model.Manager6;
 /** Truy cập bảng tblDish6 (module Add food information). */
 public class Dish6DAO extends DAO6 {
 
-    private static final String SQL_ALL_DISHES =
-            "SELECT id, dishName, price, description, status, managerId "
+    private static final String SQL_ALL_DISHES = "SELECT id, dishName, price, description, status, managerId "
             + "FROM tblDish6 ORDER BY id";
 
-    private static final String SQL_ADD_DISH =
-            "INSERT INTO tblDish6 (dishName, price, description, status, managerId) "
+    private static final String SQL_ADD_DISH = "INSERT INTO tblDish6 (dishName, price, description, status, managerId) "
             + "VALUES (?, ?, ?, ?, ?)";
 
     public Dish6DAO() {
@@ -27,7 +25,7 @@ public class Dish6DAO extends DAO6 {
     public ArrayList<Dish6> getAllDishes() {
         ArrayList<Dish6> list = new ArrayList<Dish6>();
         try (PreparedStatement ps = con.prepareStatement(SQL_ALL_DISHES);
-             ResultSet rs = ps.executeQuery()) {
+                ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Dish6 dish = new Dish6();
                 dish.setId(rs.getInt("id"));
@@ -35,7 +33,7 @@ public class Dish6DAO extends DAO6 {
                 dish.setPrice(rs.getFloat("price"));
                 dish.setDescription(rs.getString("description"));
                 dish.setStatus(rs.getBoolean("status"));
-                Manager6 manager = new Manager6();   // chỉ đóng gói id, bỏ qua thuộc tính con
+                Manager6 manager = new Manager6(); // chỉ đóng gói id, bỏ qua thuộc tính con
                 manager.setId(rs.getInt("managerId"));
                 dish.setManager(manager);
                 list.add(dish);
@@ -64,6 +62,71 @@ public class Dish6DAO extends DAO6 {
                 }
             }
             return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /** Lấy thông tin món ăn theo ID. */
+    public Dish6 getDishById(int id) {
+        String sql = "SELECT id, dishName, price, description, "
+                + "status, managerId FROM tblDish6 WHERE id = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Dish6 dish = new Dish6();
+                    dish.setId(rs.getInt("id"));
+                    dish.setDishName(rs.getString("dishName"));
+                    dish.setPrice(rs.getFloat("price"));
+                    dish.setDescription(rs.getString("description"));
+                    dish.setStatus(rs.getBoolean("status"));
+
+                    Manager6 manager = new Manager6();
+                    manager.setId(rs.getInt("managerId"));
+                    dish.setManager(manager);
+
+                    return dish;
+                }
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Lỗi lấy thông tin món ăn", e);
+        }
+
+        return null;
+    }
+
+    /** Cập nhật thông tin món ăn. */
+    public boolean updateDish(Dish6 dish) {
+        String sql = "UPDATE tblDish6 "
+                + "SET dishName=?, price=?, description=?, status=? "
+                + "WHERE id=?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, dish.getDishName());
+            ps.setFloat(2, dish.getPrice());
+            ps.setString(3, dish.getDescription());
+            ps.setBoolean(4, dish.isStatus());
+            ps.setInt(5, dish.getId());
+
+            return ps.executeUpdate() == 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /** Xóa món ăn theo ID. */
+    public boolean deleteDish(int id) {
+        String sql = "DELETE FROM tblDish6 WHERE id=?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, id);
+
+            return ps.executeUpdate() == 1;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
